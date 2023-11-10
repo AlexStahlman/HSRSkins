@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Honkai: Star Rail Skin(s)
 
 This is a Risk of Rain 2 Mod that adds Honkai: Star Rail Characters as skins!
@@ -14,7 +13,3 @@ This is a Risk of Rain 2 Mod that adds Honkai: Star Rail Characters as skins!
 
 
 All Characters in this are NOT made by me. They are property of HoYoVerse and are allowed to be used as long as there is no financial gain.
-=======
-# HSRSkins
- 
->>>>>>> parent of ac08d6f (ver 0.1.0)
