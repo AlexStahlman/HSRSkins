@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7be09e9a22eec4d4aa1b735607c1881c, type: 3}
+  m_Name: FuXuanDef
+  m_EditorClassIdentifier: 
+  modDependency:
+    value: 
+    type: 0
+  config:
+    generateEnableConfig: 0
+    enableConfigDefaultValue: 1
+    isExpanded: 1
+  bodyName: LoaderBody
+  nameTokenLocalizations:
+  - language: en
+    value: FuXuan
+  icon:
+    createFromColors: 1
+    sprite: {fileID: 0}
+    colors:
+      left:
+        serializedVersion: 2
+        rgba: 15139038
+      top:
+        serializedVersion: 2
+        rgba: 15131623
+      right:
+        serializedVersion: 2
+        rgba: 14915026
+      bottom:
+        serializedVersion: 2
+        rgba: 6900327
+    isExpanded: 1
+  unlockableName: FuXuan
+  baseSkins:
+  - accessType: 0
+    name: 
+    index: 0
+    isExpanded: 1
+  renderersSource: 0
+  meshReplacements:
+  - mesh: {fileID: 3602801979148035870, guid: 33b38fe18668ac1459f1b0a05d247494, type: 3}
+    rendererReference:
+      accessType: 0
+      name: 
+      index: 2
+      isExpanded: 1
+  - mesh: {fileID: 5685413423395942248, guid: 33b38fe18668ac1459f1b0a05d247494, type: 3}
+    rendererReference:
+      accessType: 0
+      name: 
+      index: 0
+      isExpanded: 1
+  - mesh: {fileID: 0}
+    rendererReference:
+      accessType: 0
+      name: 
+      index: 1
+      isExpanded: 1
+  gameObjectActivations: []
+  rendererInfos:
+  - defaultMaterial: {fileID: 2100000, guid: ac038eb433495eb4a835e0ccaa902dd1, type: 2}
+    defaultShadowCastingMode: 0
+    ignoreOverlays: 0
+    rendererReference:
+      accessType: 0
+      name: 
+      index: 2
+      isExpanded: 1
+  - defaultMaterial: {fileID: 2100000, guid: 84d31f88400e3cf499340ea53d21c0dd, type: 2}
+    defaultShadowCastingMode: 0
+    ignoreOverlays: 0
+    rendererReference:
+      accessType: 0
+      name: 
+      index: 0
+      isExpanded: 1
+  minionSkinReplacements: []
+  projectileGhostReplacements: []

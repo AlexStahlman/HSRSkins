@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modName: 'Honkai: SR Skins'
   author: SpartanStahl
-  version: 0.1.0
+  version: 0.2.0
   skins:
   - {fileID: 11400000, guid: b54d2a5b2f2d96e40829f73c326c15a5, type: 2}
+  - {fileID: 11400000, guid: 34fdd2d37adb2a14e90c9b76d8227e24, type: 2}
   additionalResources: []
   regenerateCode: 1
   regenerateAssemblyDefinition: 1

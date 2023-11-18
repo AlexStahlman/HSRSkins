@@ -18,7 +18,7 @@ using UnityEngine.AddressableAssets;
 namespace HonkaiSRSkins
 {
     
-    [BepInPlugin("com.SpartanStahl.HonkaiSRSkins","Honkai: SR Skins","0.1.0")]
+    [BepInPlugin("com.SpartanStahl.HonkaiSRSkins","Honkai: SR Skins","0.2.0")]
     public partial class HonkaiSRSkinsPlugin : BaseUnityPlugin
     {
         internal static HonkaiSRSkinsPlugin Instance { get; private set; }
@@ -53,7 +53,7 @@ namespace HonkaiSRSkins
         private static void ReplaceShaders()
         {
             LoadMaterialsWithReplacedShader(@"RoR2/Base/Shaders/HGStandard.shader"
-                ,@"Assets/HSRSkins/Seele/RealSeeleMat.mat"                ,@"Assets/HSRSkins/Seele/ScytheMat.mat");
+                ,@"Assets/HSRSkins/Seele/RealSeeleMat.mat"                ,@"Assets/HSRSkins/Seele/ScytheMat.mat"                ,@"Assets/HSRSkins/March/marchbody.mat");
         }
 
         private static void LoadMaterialsWithReplacedShader(string shaderPath, params string[] materialPaths)
@@ -72,6 +72,7 @@ namespace HonkaiSRSkins
             orig(self);
 
             self.SetStringByToken("SPARTANSTAHL_SKIN_SEELE_NAME", "Seele");
+            self.SetStringByToken("SPARTANSTAHL_SKIN_MARCHDEF_NAME", "March");
         }
 
         private static void Nothing(Action<SkinDef> orig, SkinDef self)
@@ -87,6 +88,7 @@ namespace HonkaiSRSkins
             HookEndpointManager.Add(awake, (Action<Action<SkinDef>, SkinDef>)Nothing);
 
             AddMercBodySeeleSkin();
+            AddHuntressBodyMarchDefSkin();
             
             HookEndpointManager.Remove(awake, (Action<Action<SkinDef>, SkinDef>)Nothing);
 
@@ -155,7 +157,7 @@ namespace HonkaiSRSkins
                         new CharacterModel.RendererInfo
                         {
                             defaultMaterial = assetBundle.LoadAsset<Material>(@"Assets/HSRSkins/Seele/RealSeeleMat.mat"),
-                            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
                             ignoreOverlays = false,
                             renderer = renderers[3]
                         },
@@ -198,6 +200,118 @@ namespace HonkaiSRSkins
 
                 BodyCatalog.skins[(int)BodyCatalog.FindBodyIndex(bodyPrefab)] = skinController.skins;
                 MercBodySeeleSkinAdded(skin, bodyPrefab);
+            }
+            catch (FieldException e)
+            {
+                InstanceLogger.LogWarning($"Failed to add \"{skinName}\" skin to \"{bodyName}\"");
+                InstanceLogger.LogWarning($"Field causing issue: {e.Message}");
+                InstanceLogger.LogError(e.InnerException);
+            }
+            catch (Exception e)
+            {
+                InstanceLogger.LogWarning($"Failed to add \"{skinName}\" skin to \"{bodyName}\"");
+                InstanceLogger.LogError(e);
+            }
+        }
+
+        static partial void HuntressBodyMarchDefSkinAdded(SkinDef skinDef, GameObject bodyPrefab);
+
+        private static void AddHuntressBodyMarchDefSkin()
+        {
+            var bodyName = "HuntressBody";
+            var skinName = "MarchDef";
+            try
+            {
+                var bodyPrefab = BodyCatalog.FindBodyPrefab(bodyName);
+                if (!bodyPrefab)
+                {
+                    InstanceLogger.LogWarning($"Failed to add \"{skinName}\" skin because \"{bodyName}\" doesn't exist");
+                    return;
+                }
+
+                var modelLocator = bodyPrefab.GetComponent<ModelLocator>();
+                if (!modelLocator)
+                {
+                    InstanceLogger.LogWarning($"Failed to add \"{skinName}\" skin to \"{bodyName}\" because it doesn't have \"ModelLocator\" component");
+                    return;
+                }
+
+                var mdl = modelLocator.modelTransform.gameObject;
+                var skinController = mdl ? mdl.GetComponent<ModelSkinController>() : null;
+                if (!skinController)
+                {
+                    InstanceLogger.LogWarning($"Failed to add \"{skinName}\" skin to \"{bodyName}\" because it doesn't have \"ModelSkinController\" component");
+                    return;
+                }
+
+                var renderers = mdl.GetComponentsInChildren<Renderer>(true);
+
+                var skin = ScriptableObject.CreateInstance<SkinDef>();
+                TryCatchThrow("Icon", () =>
+                {
+                    skin.icon = assetBundle.LoadAsset<Sprite>(@"Assets\SkinMods\HonkaiSRSkins\Icons\MarchDefIcon.png");
+                });
+                skin.name = skinName;
+                skin.nameToken = "SPARTANSTAHL_SKIN_MARCHDEF_NAME";
+                skin.rootObject = mdl;
+                TryCatchThrow("Base Skins", () =>
+                {
+                    skin.baseSkins = new SkinDef[] 
+                    { 
+                        skinController.skins[0],
+                    };
+                });
+                TryCatchThrow("Unlockable Name", () =>
+                {
+                    skin.unlockableDef = ContentManager.unlockableDefs.FirstOrDefault(def => def.cachedName == "March");
+                });
+                TryCatchThrow("Game Object Activations", () =>
+                {
+                    skin.gameObjectActivations = Array.Empty<SkinDef.GameObjectActivation>();
+                });
+                TryCatchThrow("Renderer Infos", () =>
+                {
+                    skin.rendererInfos = new CharacterModel.RendererInfo[]
+                    {
+                        new CharacterModel.RendererInfo
+                        {
+                            defaultMaterial = assetBundle.LoadAsset<Material>(@"Assets/HSRSkins/March/marchbody.mat"),
+                            defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                            ignoreOverlays = false,
+                            renderer = renderers[10]
+                        },
+                    };
+                });
+                TryCatchThrow("Mesh Replacements", () =>
+                {
+                    skin.meshReplacements = new SkinDef.MeshReplacement[]
+                    {
+                        new SkinDef.MeshReplacement
+                        {
+                            mesh = assetBundle.LoadAsset<Mesh>(@"Assets\SkinMods\HonkaiSRSkins\Meshes\三月七 1.0_mesh.mesh"),
+                            renderer = renderers[10]
+                        },
+                        new SkinDef.MeshReplacement
+                        {
+                            mesh = null,
+                            renderer = renderers[11]
+                        },
+                    };
+                });
+                TryCatchThrow("Minion Skin Replacements", () =>
+                {
+                    skin.minionSkinReplacements = Array.Empty<SkinDef.MinionSkinReplacement>();
+                });
+                TryCatchThrow("Projectile Ghost Replacements", () =>
+                {
+                    skin.projectileGhostReplacements = Array.Empty<SkinDef.ProjectileGhostReplacement>();
+                });
+
+                Array.Resize(ref skinController.skins, skinController.skins.Length + 1);
+                skinController.skins[skinController.skins.Length - 1] = skin;
+
+                BodyCatalog.skins[(int)BodyCatalog.FindBodyIndex(bodyPrefab)] = skinController.skins;
+                HuntressBodyMarchDefSkinAdded(skin, bodyPrefab);
             }
             catch (FieldException e)
             {

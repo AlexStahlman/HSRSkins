@@ -48,13 +48,13 @@ MonoBehaviour:
     isExpanded: 1
   renderersSource: 0
   meshReplacements:
-  - mesh: {fileID: 3945017196472532481, guid: c8e29f1d05dcb2149981acf8098b6d35, type: 3}
+  - mesh: {fileID: 3945017196472532481, guid: 960cd78b8db5f994a941f7bc80049867, type: 3}
     rendererReference:
       accessType: 0
       name: 
       index: 3
       isExpanded: 1
-  - mesh: {fileID: 4380752030471901712, guid: c8e29f1d05dcb2149981acf8098b6d35, type: 3}
+  - mesh: {fileID: 4380752030471901712, guid: 960cd78b8db5f994a941f7bc80049867, type: 3}
     rendererReference:
       accessType: 0
       name: 
@@ -63,7 +63,7 @@ MonoBehaviour:
   gameObjectActivations: []
   rendererInfos:
   - defaultMaterial: {fileID: 2100000, guid: be779125acb901b4c8f67311e5667ed5, type: 2}
-    defaultShadowCastingMode: 1
+    defaultShadowCastingMode: 0
     ignoreOverlays: 0
     rendererReference:
       accessType: 0
